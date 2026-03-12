@@ -1039,10 +1039,10 @@
   </footer>
 
   <script>
+  try {
     // Mark JS as loaded so reveal animations activate
     document.body.classList.add('js-loaded');
 
-    try {
     // Custom cursor
     const cursor = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
@@ -1157,7 +1157,7 @@
       mapEl.appendChild(svg);
     }
 
-    } catch(err) { console.warn('Site script error:', err); }
+  } catch(err) { console.warn('Site script error:', err); }
   </script>
 </body>
 </html>
