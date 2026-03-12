@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Amelia Rose — Electrochemist & Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f7f4ee;
+      --ink: #141210;
+      --orange: #e85d04;
+      --orange-pale: #fff0e6;
+      --green: #1a7a4a;
+      --green-pale: #e8f5ee;
+      --blue: #1455c8;
+      --blue-pale: #e8eeff;
+      --nyu: #57068c;
+      --nyu-light: #8b2fc9;
+      --nyu-pale: #f3eafc;
+      --cream: #ede8df;
+      --muted: #7a7469;
+      --line: #ddd8ce;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: 'Outfit', sans-serif; overflow-x: hidden; }
+
+    /* CURSOR */
+    .cursor { position: fixed; width: 12px; height: 12px; background: var(--orange); border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%,-50%); transition: transform 0.15s, background 0.3s, width 0.2s, height 0.2s; mix-blend-mode: multiply; }
+    .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1.5px solid var(--orange); border-radius: 50%; pointer-events: none; z-index: 99998; transform: translate(-50%,-50%); transition: border-color 0.3s; opacity: 0.6; }
+
+    /* NOISE */
+    body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9998; }
+
+    /* TEXT LINKS */
+    .tlink { display: inline-flex; align-items: center; gap: 0.4em; text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.04em; position: relative; transition: gap 0.2s; }
+    .tlink::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease; }
+    .tlink:hover::after { transform: scaleX(1); }
+    .tlink:hover { gap: 0.7em; }
+    .tlink .arr { display: inline-block; transition: transform 0.2s; }
+    .tlink:hover .arr { transform: translateX(3px); }
+    .tlink-orange { color: var(--orange); }
+    .tlink-green  { color: var(--green); }
+    .tlink-blue   { color: var(--blue); }
+    .tlink-nyu    { color: var(--nyu); }
+    .tlink-ink    { color: var(--ink); }
+    .tlink-white  { color: white; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; background: rgba(247,244,238,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--line); }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; position: relative; transition: color 0.2s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 2px; background: var(--orange); transform: scaleX(0); transform-origin: left; transition: transform 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.glass-nav { color: var(--nyu-light); }
+    .nav-links a.glass-nav::after { background: var(--nyu); }
+    .nav-social-links { display: flex; gap: 1.5rem; align-items: center; }
+
+    /* HERO */
+    .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 4rem; }
+    .hero-left { padding: 5rem 3.5rem; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--line); position: relative; overflow: hidden; }
+    .hero-bg-text { position: absolute; top: 2rem; right: -4rem; font-family: 'Playfair Display', serif; font-size: 22rem; font-weight: 900; color: transparent; -webkit-text-stroke: 1px var(--line); pointer-events: none; line-height: 1; z-index: 0; user-select: none; }
+    .hero-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; position: relative; z-index: 1; opacity: 0; animation: slideIn 0.7s 0.1s forwards; }
+    .hero-eyebrow::before { content: ''; width: 2.5rem; height: 1px; background: var(--orange); display: block; }
+    .hero-name { font-family: 'Playfair Display', serif; font-size: clamp(4rem, 7vw, 7rem); font-weight: 900; line-height: 0.95; letter-spacing: -0.03em; position: relative; z-index: 1; opacity: 0; animation: slideIn 0.7s 0.25s forwards; }
+    .hero-name .line2 { display: block; color: transparent; -webkit-text-stroke: 2px var(--green); }
+    .hero-desc { font-size: 1rem; line-height: 1.8; color: var(--muted); max-width: 440px; margin: 2rem 0; position: relative; z-index: 1; opacity: 0; animation: slideIn 0.7s 0.4s forwards; }
+    .hero-desc strong { color: var(--ink); }
+    .hero-links { display: flex; flex-direction: column; gap: 0.65rem; position: relative; z-index: 1; opacity: 0; animation: slideIn 0.7s 0.55s forwards; }
+    .hero-link-row { display: flex; gap: 2rem; align-items: center; }
+
+    .hero-right { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--cream); }
+    .hero-photo-full { width: 75%; max-width: 420px; height: 85%; object-fit: cover; object-position: center top; display: block; transition: transform 8s ease; border-radius: 2px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .hero-right:hover .hero-photo-full { transform: scale(1.04); }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(232,93,4,0.12) 0%, transparent 50%, rgba(26,122,74,0.12) 100%); pointer-events: none; }
+    .floating-chips { position: absolute; inset: 0; pointer-events: none; }
+    .chip { position: absolute; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; padding: 0.4rem 0.9rem; border-radius: 100px; backdrop-filter: blur(8px); animation: floatChip 5s ease-in-out infinite; }
+    .chip-orange { background: rgba(232,93,4,0.88); color: white; top: 14%; left: 7%; animation-delay: 0s; }
+    .chip-green  { background: rgba(26,122,74,0.88); color: white; top: 30%; right: 6%; animation-delay: 1.2s; }
+    .chip-blue   { background: rgba(20,85,200,0.88); color: white; bottom: 32%; left: 5%; animation-delay: 0.6s; }
+    .chip-nyu    { background: rgba(87,6,140,0.88); color: white; bottom: 18%; right: 7%; animation-delay: 1.8s; }
+    .chip-white  { background: rgba(255,255,255,0.85); color: var(--ink); top: 54%; left: 11%; animation-delay: 2.4s; }
+
+    .hero-stats-bar { position: absolute; bottom: 0; left: 0; right: 0; display: grid; grid-template-columns: repeat(4, 1fr); background: rgba(20,18,16,0.85); backdrop-filter: blur(10px); }
+    .hstat { padding: 1.2rem 1rem; text-align: center; border-right: 1px solid rgba(255,255,255,0.08); }
+    .hstat:last-child { border-right: none; }
+    .hstat-num { display: block; font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; line-height: 1; margin-bottom: 0.2rem; }
+    .hstat-num.orange { color: var(--orange); }
+    .hstat-num.green  { color: #4ade80; }
+    .hstat-num.blue   { color: #7eb3ff; }
+    .hstat-num.nyu    { color: #c084fc; }
+    .hstat-label { font-family: 'Space Mono', monospace; font-size: 0.56rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+
+    /* MARQUEE */
+    .marquee-wrap { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0.75rem 0; }
+    .marquee-track { display: flex; white-space: nowrap; animation: marquee 28s linear infinite; }
+    .marquee-item { display: inline-flex; align-items: center; gap: 1rem; padding: 0 2rem; font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    .marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+
+    /* SECTION SHARED */
+    .section-tag { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+    .section-tag::before { content: ''; width: 2rem; height: 1px; background: currentColor; display: block; }
+    .section-tag.orange { color: var(--orange); }
+    .section-tag.green  { color: var(--green); }
+    .section-tag.blue   { color: var(--blue); }
+    .section-tag.nyu    { color: var(--nyu); }
+    .section-heading { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 900; line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 2rem; }
+    .section-heading em { font-style: italic; color: var(--orange); }
+    .section-heading .green-text { color: var(--green); }
+    .section-heading .blue-text  { color: var(--blue); }
+    .section-heading .nyu-text   { color: var(--nyu); }
+
+    /* ABOUT */
+    #about { display: grid; grid-template-columns: 1fr 1fr; min-height: 80vh; }
+    .about-img-side { position: relative; overflow: hidden; }
+    .about-img-side img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; transition: transform 6s ease; }
+    .about-img-side:hover img { transform: scale(1.05); }
+    .about-img-caption { position: absolute; bottom: 2rem; left: 2rem; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: white; background: rgba(0,0,0,0.45); backdrop-filter: blur(6px); padding: 0.4rem 0.8rem; text-transform: uppercase; }
+    .about-content-side { padding: 5rem 4rem; display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--line); }
+    .about-body p { font-size: 0.98rem; line-height: 1.85; color: var(--muted); margin-bottom: 1rem; }
+    .about-body p strong { color: var(--ink); }
+    .about-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 2.5rem; }
+    .fact-pill { padding: 0.75rem 1rem; border-radius: 4px; font-size: 0.82rem; line-height: 1.4; transition: transform 0.2s; cursor: default; }
+    .fact-pill:hover { transform: translateY(-2px); }
+    .fact-pill.orange { background: var(--orange-pale); color: var(--orange); border: 1px solid rgba(232,93,4,0.2); }
+    .fact-pill.green  { background: var(--green-pale);  color: var(--green);  border: 1px solid rgba(26,122,74,0.2); }
+    .fact-pill.blue   { background: var(--blue-pale);   color: var(--blue);   border: 1px solid rgba(20,85,200,0.2); }
+    .fact-pill.nyu    { background: var(--nyu-pale);    color: var(--nyu);    border: 1px solid rgba(87,6,140,0.2); }
+    .fact-pill span { display: block; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.2rem; opacity: 0.6; }
+    .about-links { margin-top: 2rem; display: flex; gap: 2rem; flex-wrap: wrap; }
+
+    /* RESEARCH */
+    #research { padding: 6rem 3rem; border-top: 1px solid var(--line); }
+    .research-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; }
+
+    .research-hero { display: grid; grid-template-columns: 3fr 2fr; border: 1px solid var(--line); margin-bottom: 2px; transition: border-color 0.3s; }
+    .research-hero:hover { border-color: var(--orange); }
+    .research-hero-main { padding: 3rem; border-right: 1px solid var(--line); }
+    .research-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .research-label::before { content: ''; width: 1.5rem; height: 1px; background: currentColor; }
+    .research-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; line-height: 1.1; margin-bottom: 0.5rem; }
+    .research-org { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; color: var(--orange); margin-bottom: 1.5rem; }
+    .research-abstract { font-size: 0.92rem; line-height: 1.8; color: var(--muted); }
+    .research-abstract strong { color: var(--ink); }
+    .research-abstract p + p { margin-top: 0.85rem; }
+    .research-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.5rem; }
+    .rtag { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.06em; padding: 0.3rem 0.7rem; border-radius: 100px; border: 1px solid currentColor; transition: background 0.2s, color 0.2s; cursor: default; }
+    .rtag.orange { color: var(--orange); } .rtag.orange:hover { background: var(--orange); color: white; }
+    .rtag.green  { color: var(--green);  } .rtag.green:hover  { background: var(--green);  color: white; }
+    .rtag.blue   { color: var(--blue);   } .rtag.blue:hover   { background: var(--blue);   color: white; }
+    .research-hero-aside { padding: 3rem; background: var(--cream); display: flex; flex-direction: column; gap: 1.5rem; }
+    .aside-item { border-bottom: 1px solid var(--line); padding-bottom: 1.2rem; }
+    .aside-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .aside-label { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+    .aside-val { font-size: 0.88rem; color: var(--ink); line-height: 1.5; }
+
+    /* PUB BLOCK */
+    .pub-block { background: var(--ink); color: white; padding: 3.5rem 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 2px; }
+    .pub-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); margin-bottom: 1.25rem; }
+    .pub-title-big { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; line-height: 1.4; color: white; margin-bottom: 1rem; }
+    .pub-authors { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 0.5rem; }
+    .pub-authors strong { color: white; }
+    .pub-journal { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em; color: rgba(255,255,255,0.3); margin-bottom: 1.5rem; }
+    .pub-right-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 1.5rem; }
+    .conf-item { display: flex; gap: 1.25rem; padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); transition: padding-left 0.2s; }
+    .conf-item:hover { padding-left: 0.5rem; }
+    .conf-year { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--orange); min-width: 2.5rem; padding-top: 0.15rem; }
+    .conf-title { font-size: 0.85rem; color: rgba(255,255,255,0.8); line-height: 1.4; margin-bottom: 0.25rem; }
+    .conf-venue { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: rgba(255,255,255,0.35); }
+
+    /* ROLES */
+    .roles-header { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); padding: 1.5rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .role-row { display: grid; grid-template-columns: 14rem 1fr auto; gap: 2rem; align-items: start; padding: 2rem 0; border-bottom: 1px solid var(--line); transition: background 0.15s, padding-left 0.2s; }
+    .role-row:hover { background: var(--cream); padding-left: 1rem; }
+    .role-date { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em; color: var(--muted); padding-top: 0.2rem; }
+    .role-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .role-org { font-size: 0.82rem; color: var(--orange); margin-bottom: 0.75rem; font-weight: 500; }
+    .role-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .role-num { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--line); line-height: 1; }
+
+    /* EDUCATION */
+    #education { background: var(--ink); color: white; padding: 6rem 3rem; }
+    .edu-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 6rem; align-items: start; }
+    .edu-school-name { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; line-height: 1; color: white; margin-bottom: 1rem; }
+    .edu-school-sub { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); line-height: 1.7; }
+    .edu-gpa-big { font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 900; color: var(--orange); line-height: 1; margin: 2rem 0 0.5rem; }
+    .edu-gpa-label { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+    .edu-cards { display: flex; flex-direction: column; }
+    .edu-card { padding: 1.75rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.08); transition: background 0.2s, padding-left 0.2s; position: relative; }
+    .edu-card:hover { background: rgba(255,255,255,0.04); padding-left: 2.5rem; }
+    .edu-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--orange); transform: scaleY(0); transition: transform 0.2s; transform-origin: top; }
+    .edu-card:hover::before { transform: scaleY(1); }
+    .edu-card.green-a::before { background: var(--green); }
+    .edu-card.blue-a::before  { background: var(--blue); }
+    .edu-card.nyu-a::before   { background: var(--nyu-light); }
+    .edu-card-title { font-weight: 600; color: white; margin-bottom: 0.4rem; }
+    .edu-card-desc { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    /* GLASS */
+    #glass { padding: 6rem 3rem; border-top: 3px solid var(--nyu); background: var(--nyu-pale); position: relative; overflow: hidden; }
+    #glass::before { content: 'GLASS'; position: absolute; top: -1rem; right: -2rem; font-family: 'Playfair Display', serif; font-size: 18rem; font-weight: 900; color: transparent; -webkit-text-stroke: 1px rgba(87,6,140,0.1); pointer-events: none; line-height: 1; user-select: none; }
+    .glass-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-bottom: 5rem; }
+    .glass-intro-text p { font-size: 0.98rem; line-height: 1.85; color: #4a3060; margin-bottom: 1rem; }
+    .glass-intro-text p strong { color: var(--nyu); }
+    .glass-intro-links { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .glass-windows-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .gwindow { padding: 1.25rem; background: white; border: 1px solid rgba(87,6,140,0.12); border-radius: 4px; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }
+    .gwindow:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(87,6,140,0.12); border-color: var(--nyu); }
+    .gwindow-icon { font-size: 1.4rem; margin-bottom: 0.6rem; }
+    .gwindow-title { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--nyu); margin-bottom: 0.35rem; }
+    .gwindow-desc { font-size: 0.8rem; color: #6b4a8a; line-height: 1.5; }
+    .gwindow.span2 { grid-column: span 2; }
+    .glass-divider { height: 1px; background: rgba(87,6,140,0.15); margin: 0 0 4rem; }
+    .glass-exp-heading { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--nyu); margin-bottom: 2.5rem; }
+    .glass-exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .gcard { background: white; border: 1px solid rgba(87,6,140,0.12); padding: 2rem; transition: transform 0.25s, box-shadow 0.25s; position: relative; overflow: hidden; }
+    .gcard::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--nyu); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+    .gcard:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(87,6,140,0.12); }
+    .gcard:hover::after { transform: scaleX(1); }
+    .gcard-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .gcard-window { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--nyu-light); margin-bottom: 0.5rem; }
+    .gcard-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--nyu); margin-bottom: 0.2rem; }
+    .gcard-loc { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: rgba(87,6,140,0.45); letter-spacing: 0.05em; margin-bottom: 0.85rem; }
+    .gcard-desc { font-size: 0.83rem; color: #5a4070; line-height: 1.65; }
+    .gcard-desc strong { color: var(--nyu); }
+
+    /* CONTACT */
+    #contact { padding: 6rem 3rem; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+    .contact-big { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+    .contact-big em { font-style: italic; color: var(--orange); }
+    .contact-tagline { font-size: 1rem; color: var(--muted); line-height: 1.7; margin-top: 1.5rem; }
+    .contact-links-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .contact-right { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact-item { padding: 1.5rem; border: 1px solid var(--line); transition: border-color 0.2s, transform 0.2s; text-decoration: none; display: block; }
+    .contact-item:hover { border-color: var(--orange); transform: translateX(4px); }
+    .contact-item.nyu-item:hover { border-color: var(--nyu); }
+    .contact-item-label { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.3rem; }
+    .contact-item-val { font-size: 1rem; font-weight: 500; color: var(--ink); transition: color 0.2s; display: block; }
+    .contact-item:hover .contact-item-val { color: var(--orange); }
+    .contact-item.nyu-item:hover .contact-item-val { color: var(--nyu); }
+
+    /* FOOTER */
+    footer { padding: 2rem 3rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: var(--ink); }
+    footer p { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+
+    /* REVEAL — visible by default, animates in when JS works */
+    .reveal { opacity: 1; transform: none; transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left { opacity: 1; transform: none; transition: opacity 0.7s ease, transform 0.7s ease; }
+    /* JS adds .js-loaded to body, then we hide for animation */
+    .js-loaded .reveal { opacity: 0; transform: translateY(28px); }
+    .js-loaded .reveal-left { opacity: 0; transform: translateX(-28px); }
+    .js-loaded .reveal.up { opacity: 1; transform: none; }
+    .js-loaded .reveal-left.up { opacity: 1; transform: none; }
+
+    /* ANIMATIONS */
+    @keyframes slideIn { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+    @keyframes floatChip { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* RESPONSIVE */
+    @media (max-width: 1000px) {
+      .hero, #about, #contact { grid-template-columns: 1fr; }
+      .hero-bg-text { display: none; }
+      .hero-right { min-height: 60vw; }
+      .about-content-side { border-left: none; border-top: 1px solid var(--line); padding: 3rem 2rem; }
+      .glass-layout, .pub-block { grid-template-columns: 1fr; gap: 2rem; }
+      .research-hero { grid-template-columns: 1fr; }
+      .research-hero-main { border-right: none; border-bottom: 1px solid var(--line); }
+      .edu-layout { grid-template-columns: 1fr; gap: 3rem; }
+      nav { padding: 1rem 1.5rem; }
+      #research, #glass, #education, #contact { padding: 4rem 1.5rem; }
+    }
+    @media (max-width: 700px) {
+      .nav-links { gap: 1rem; }
+      .glass-exp-grid { grid-template-columns: 1fr; }
+      .glass-windows-grid { grid-template-columns: 1fr; }
+      .gwindow.span2 { grid-column: span 1; }
+      .hero-stats-bar { grid-template-columns: repeat(2,1fr); }
+      .role-row { grid-template-columns: 1fr; gap: 0.5rem; }
+      .role-num { display: none; }
+      .about-facts { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .nav-social-links { display: none; }
+    }
+    /* ══════════════════════════════════════════
+       VIBRANT COLOR SYSTEM — Section by section
+    ══════════════════════════════════════════ */
+
+    /* Rainbow top bar */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--orange), #f59e0b, var(--green), var(--blue), var(--nyu));
+      z-index: 100000;
+    }
+
+    /* Hero — warm orange sunrise glow bottom-left */
+    #home {
+      background: radial-gradient(ellipse 60% 80% at 0% 100%, rgba(232,93,4,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse 40% 60% at 100% 0%, rgba(20,85,200,0.08) 0%, transparent 55%),
+                  var(--bg);
+    }
+
+    /* About — warm peach wash */
+    #about {
+      background: linear-gradient(135deg, var(--bg) 0%, #fff4ec 50%, var(--orange-pale) 100%);
+    }
+    .about-content-side {
+      background: transparent;
+      position: relative;
+    }
+    .about-content-side::before {
+      content: '';
+      position: absolute;
+      top: -2rem; bottom: -2rem; left: -1rem; right: -2rem;
+      background: linear-gradient(160deg, transparent 40%, rgba(232,93,4,0.06) 100%);
+      pointer-events: none;
+    }
+
+    /* Research — deep forest green wash */
+    #research {
+      background: linear-gradient(160deg, var(--bg) 0%, #edf7f2 60%, var(--green-pale) 100%);
+      border-top: 4px solid var(--green);
+    }
+    /* Featured research block gets a gradient border */
+    .featured-research {
+      border-left: 4px solid var(--orange) !important;
+      background: linear-gradient(135deg, white 80%, var(--orange-pale)) !important;
+    }
+    .pub-spotlight {
+      background: linear-gradient(135deg, var(--ink) 70%, #1a3a1a) !important;
+      border-left: 4px solid var(--green) !important;
+    }
+
+    /* Education — rich midnight blue wash */
+    #education {
+      background: linear-gradient(160deg, #0d1b3e 0%, #112244 60%, #0a1528 100%) !important;
+      border-top: 4px solid var(--blue);
+    }
+
+    /* GLASS — deep purple with more depth */
+    #glass {
+      background: linear-gradient(160deg, #f5eaff 0%, #ede0fa 50%, #e0ccf5 100%) !important;
+    }
+    .gwindow {
+      border-top: 3px solid var(--nyu) !important;
+      transition: border-color 0.3s, transform 0.2s !important;
+    }
+    .gwindow:hover { border-top-color: var(--nyu-light) !important; }
+    .gcard {
+      border-top: 3px solid var(--nyu) !important;
+      background: white !important;
+      box-shadow: 0 2px 20px rgba(87,6,140,0.08) !important;
+      transition: transform 0.25s, box-shadow 0.25s !important;
+    }
+    .gcard:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 12px 40px rgba(87,6,140,0.18) !important;
+      border-top-color: var(--nyu-light) !important;
+    }
+
+    /* Contact — ocean blue-teal gradient */
+    #contact {
+      background: linear-gradient(135deg, #eef3ff 0%, var(--bg) 40%, #e8f5f0 100%);
+    }
+    .contact-item {
+      border-left: 3px solid transparent !important;
+      transition: border-color 0.2s, background 0.2s !important;
+    }
+    .contact-item:hover { border-left-color: var(--orange) !important; background: var(--orange-pale) !important; }
+
+    /* Stat bars in hero */
+    .hstat:nth-child(1) { border-top: 3px solid var(--orange); }
+    .hstat:nth-child(2) { border-top: 3px solid #4ade80; }
+    .hstat:nth-child(3) { border-top: 3px solid #7eb3ff; }
+    .hstat:nth-child(4) { border-top: 3px solid #c084fc; }
+
+    /* Role rows */
+    .role-row:nth-child(odd):hover { background: var(--orange-pale); }
+    .role-row:nth-child(even):hover { background: var(--green-pale); }
+    .role-row { border-left: 0px solid transparent; transition: border-left-width 0.2s, border-color 0.2s, background 0.2s; }
+    .role-row:hover { border-left: 3px solid var(--orange); }
+
+    /* Fact pills get colored left border on hover */
+    .fact-pill { transition: transform 0.2s, box-shadow 0.2s; }
+    .fact-pill:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .fact-pill.orange { border-left: 3px solid var(--orange); }
+    .fact-pill.green  { border-left: 3px solid var(--green); }
+    .fact-pill.blue   { border-left: 3px solid var(--blue); }
+    .fact-pill.nyu    { border-left: 3px solid var(--nyu); }
+
+    /* Education GPA number gets orange glow */
+    .edu-gpa {
+      text-shadow: 0 0 80px rgba(232,93,4,0.3) !important;
+    }
+
+    /* Europe map section — richer gradient */
+    .map-section {
+      background: linear-gradient(160deg, #0f0a1e 0%, #1a1035 50%, #0f1628 100%) !important;
+    }
+
+    /* ── PHOTO GALLERY STRIP ── */
+    .photo-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+    .photo-strip-item {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+    }
+    .photo-strip-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+    .photo-strip-item:hover img { transform: scale(1.08); }
+    .photo-strip-caption {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+      display: flex;
+      align-items: flex-end;
+      padding: 0.75rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .photo-strip-item:hover .photo-strip-caption { opacity: 1; }
+    .photo-strip-caption span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: white;
+    }
+
+    /* ── VIETNAM GALLERY inside gcard ── */
+    .gcard-gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      margin-top: 1rem;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .gcard-gallery img {
+      width: 100%; aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .gcard-gallery img:hover { transform: scale(1.05); }
+    .gcard-gallery img.span2 { grid-column: span 2; aspect-ratio: 16/7; }
+
+    /* ── EUROPE MAP SECTION ── */
+    .map-section {
+      background: var(--ink);
+      padding: 4rem 3rem;
+      border-top: 3px solid var(--nyu);
+    }
+    .map-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 2rem;
+    }
+    .map-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white;
+    }
+    .map-subtitle {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.4);
+      margin-top: 0.3rem;
+    }
+    .map-count {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--nyu-light);
+      line-height: 1;
+    }
+    .map-count-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .map-container {
+      position: relative;
+      background: #1a1035;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    #europe-map { width: 100%; height: 420px; }
+    .city-pins-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .city-pin-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      padding: 0.3rem 0.75rem;
+      border-radius: 100px;
+      background: rgba(139,47,201,0.25);
+      border: 1px solid rgba(139,47,201,0.5);
+      color: #c084fc;
+      transition: background 0.2s, border-color 0.2s;
+      cursor: default;
+    }
+    .city-pin-tag:hover { background: var(--nyu-light); border-color: var(--nyu-light); color: white; }
+
+    /* ── EUROPE SLIDESHOW ── */
+    .euro-slideshow {
+      position: relative;
+      max-width: 680px;
+      margin: 2rem auto 0;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .euro-slides { position: relative; height: 420px; }
+    .euro-slide {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 0.7s ease;
+    }
+    .euro-slide.active { opacity: 1; }
+    .euro-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .euro-slide-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 1.2rem 1.5rem;
+      background: linear-gradient(to top, rgba(87,6,140,0.9) 0%, transparent 100%);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: white;
+    }
+    .euro-btn {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: background 0.2s;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 10;
+    }
+    .euro-btn:hover { background: rgba(139,47,201,0.6); }
+    .euro-prev { left: 1rem; }
+    .euro-next { right: 1rem; }
+    .euro-dots {
+      position: absolute;
+      bottom: 1rem; left: 0; right: 0;
+      display: flex; justify-content: center; gap: 0.4rem;
+      z-index: 10;
+    }
+    .euro-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .euro-dot.active { background: white; transform: scale(1.3); }
+
+    @media (max-width: 700px) {
+      .euro-slides { height: 280px; }
+      .map-section { padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Amelia Rose</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#glass" class="glass-nav">GLASS</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-social-links">
+      <a href="https://www.linkedin.com/in/amelia-rose-2b8214294" target="_blank" class="tlink tlink-orange">LinkedIn <span class="arr">↗</span></a>
+      <a href="AmeliaRose_Resume.pdf" download class="tlink tlink-green">Resume <span class="arr">↓</span></a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-left">
+      <span class="hero-bg-text">AR</span>
+      <p class="hero-eyebrow">Electrochemist · Engineer · GLASS Scholar</p>
+      <h1 class="hero-name">Amelia<span class="line2">Rose</span></h1>
+      <p class="hero-desc">
+        Junior at <strong>NYU Tandon</strong> studying Chemical & Biomolecular Engineering.
+        I research electrochemical CO₂ conversion, pulsed electrolysis, and sustainable chemical
+        manufacturing. JACS-published, internationally experienced, and passionate about building
+        a cleaner future through science. I also love to bake, make art, and explore new places.
+      </p>
+      <div class="hero-links">
+        <div class="hero-link-row">
+          <a href="#research" class="tlink tlink-orange">Explore my research <span class="arr">→</span></a>
+          <a href="#about" class="tlink tlink-green">About me <span class="arr">→</span></a>
+        </div>
+        <div class="hero-link-row">
+          <a href="https://pubs.acs.org/doi/10.1021/jacs.5c12445" target="_blank" class="tlink tlink-blue">JACS 2025 publication <span class="arr">↗</span></a>
+          <a href="AmeliaRose_Resume.pdf" download class="tlink tlink-ink">Download resume <span class="arr">↓</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="amelia.jpg" alt="Amelia Rose" class="hero-photo-full"/>
+      <div class="hero-overlay"></div>
+      <div class="floating-chips">
+        <span class="chip chip-orange">⚗️ Electrochemistry</span>
+        <span class="chip chip-green">🌱 Renewable Energy</span>
+        <span class="chip chip-blue">🐍 Python · Data Analysis</span>
+        <span class="chip chip-nyu">💜 GLASS Scholar</span>
+        <span class="chip chip-white">📄 JACS 2025</span>
+      </div>
+      <div class="hero-stats-bar">
+        <div class="hstat"><span class="hstat-num orange">3.7</span><span class="hstat-label">GPA</span></div>
+        <div class="hstat"><span class="hstat-num green">5+</span><span class="hstat-label">Research Roles</span></div>
+        <div class="hstat"><span class="hstat-num blue">3</span><span class="hstat-label">Publications</span></div>
+        <div class="hstat"><span class="hstat-num nyu">20+</span><span class="hstat-label">Countries</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE 1 -->
+  <div class="marquee-wrap" style="background:var(--ink);">
+    <div class="marquee-track">
+      <span class="marquee-item"><span class="marquee-dot"></span>Electrochemistry</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>CO₂ Conversion</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>NYU Tandon</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>JACS 2025</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Pulsed Electrolysis</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>GLASS Scholar</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Denmark · Vietnam</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Renewable Energy</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Chemical Engineering</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Python</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Electrochemistry</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>CO₂ Conversion</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>NYU Tandon</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>JACS 2025</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Pulsed Electrolysis</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>GLASS Scholar</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Denmark · Vietnam</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Renewable Energy</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Chemical Engineering</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Python</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-img-side reveal-left">
+      <img src="lisbon.jpg" alt="Amelia Rose in Lisbon" onerror="this.src='amelia.jpg'"/>
+      <div class="about-img-caption">Lisbon, Portugal · Semester Abroad 2025</div>
+    </div>
+    <div class="about-content-side">
+      <p class="section-tag orange">About Me</p>
+      <h2 class="section-heading">Scientist,<br><em>explorer</em>,<br><span class="green-text">engineer.</span></h2>
+      <div class="about-body reveal">
+        <p>Hi, I'm Amelia — originally from <strong>Columbia, Maryland</strong>, now living and studying in Brooklyn, NY. Starting school in New York was a fun change, and I love exploring the city and trying new foods. In my free time I'm usually baking, trying new art hobbies, or planning my next trip.</p>
+        <p>I'm a junior at <strong>NYU Tandon School of Engineering</strong> studying Chemical and Biomolecular Engineering. My academic passion is electrochemistry — specifically using electricity from renewable sources to drive chemical reactions that build a more sustainable world.</p>
+        <p>I'm a proud <strong>GLASS Scholar</strong>, a program that has taken me to <strong>13+ countries</strong> across Europe and Southeast Asia — from Denmark and Vietnam to Lisbon, London, Tallinn, and Mont Blanc. I believe deeply that seeing the world makes you a better scientist and a better person.</p>
+      </div>
+      <div class="about-facts reveal">
+        <div class="fact-pill orange"><span>Hometown</span>Columbia, Maryland</div>
+        <div class="fact-pill green"><span>Degree</span>B.S. Chem. & Biomolecular Eng.</div>
+        <div class="fact-pill blue"><span>Graduating</span>May 2027 · 3.7 GPA</div>
+        <div class="fact-pill nyu"><span>Program</span>GLASS Scholar · NYU Tandon</div>
+        <div class="fact-pill orange"><span>Hobbies</span>Baking · Art · Travel</div>
+        <div class="fact-pill green"><span>Countries Visited</span>20+</div>
+      </div>
+      <div class="about-links reveal">
+        <a href="AmeliaRose_Resume.pdf" download class="tlink tlink-orange">Download resume <span class="arr">↓</span></a>
+        <a href="https://www.linkedin.com/in/amelia-rose-2b8214294" target="_blank" class="tlink tlink-blue">Connect on LinkedIn <span class="arr">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE 2 -->
+  <div class="marquee-wrap" style="background:var(--green);">
+    <div class="marquee-track" style="animation-direction:reverse;animation-duration:22s;">
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Lab Assistant</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Turnover Labs</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>DTU Energy Dept.</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Dr. Modestino's Lab</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Membrane Electrode Assembly</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Cyclic Voltammetry</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Biofuels & Bioplastics</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Opentrons Robot</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Lab Assistant</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Turnover Labs</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>DTU Energy Dept.</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Dr. Modestino's Lab</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Membrane Electrode Assembly</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Cyclic Voltammetry</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Biofuels & Bioplastics</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:white"></span>Opentrons Robot</span>
+    </div>
+  </div>
+
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="research-header reveal">
+      <div>
+        <p class="section-tag orange">Research</p>
+        <h2 class="section-heading">Powering the future<br>with <em>electrons.</em></h2>
+      </div>
+    </div>
+
+    <div class="research-hero reveal">
+      <div class="research-hero-main">
+        <p class="research-label" style="color:var(--orange);">Undergraduate Research Abstract · Summer 2025</p>
+        <h3 class="research-title">REnewEthanol</h3>
+        <p class="research-org">NYU Tandon Undergraduate Summer Research · Dr. Miguel Modestino's Lab</p>
+        <div class="research-abstract">
+          <p>Renewable energy technologies such as solar and wind present effective pathways for generating green electricity that can drive the electrochemical conversion of <strong>CO₂ into ethanol</strong> and other C₂+ products. However, integrating such electricity into chemical manufacturing is challenging due to the <strong>variable and intermittent nature of renewable power</strong>.</p>
+          <p>This research employed <strong>pulsed electrolysis</strong> to enable steady-state production using a membrane electrode assembly with a copper electrocatalyst. Pulsed current sequences were applied to hydrated CO₂, alternating between active and resting periods. Products were analyzed to identify pulsing conditions maximizing faradaic efficiency toward <strong>ethanol, ethylene, and acetate</strong>.</p>
+          <p>These findings establish a relationship between power input and product selectivity — providing a framework for dynamically controlling electrochemical reactions based on power availability. A key step toward scaling renewable-powered chemical processes for industrial implementation.</p>
+        </div>
+        <div class="research-tags">
+          <span class="rtag orange">Pulsed Electrolysis</span>
+          <span class="rtag orange">CO₂ Conversion</span>
+          <span class="rtag green">Membrane Electrode Assembly</span>
+          <span class="rtag green">Copper Electrocatalyst</span>
+          <span class="rtag blue">Faradaic Efficiency</span>
+          <span class="rtag blue">Renewable Energy</span>
+        </div>
+      </div>
+      <div class="research-hero-aside">
+        <div class="aside-item"><p class="aside-label">Institution</p><p class="aside-val">NYU Tandon School of Engineering</p></div>
+        <div class="aside-item"><p class="aside-label">Duration</p><p class="aside-val">June – August 2025</p></div>
+        <div class="aside-item"><p class="aside-label">Focus</p><p class="aside-val">Electrochemical CO₂ Reduction · Renewable Energy Integration</p></div>
+        <div class="aside-item"><p class="aside-label">Key Method</p><p class="aside-val">Pulsed current electrolysis with Cu MEA · GC product analysis</p></div>
+        <div class="aside-item" style="border:none;padding:0;">
+          <p class="aside-label">Related Publication</p>
+          <p class="aside-val" style="margin-bottom:0.75rem;">Controlling Selectivity in Electrochemical Conversion — JACS 2025</p>
+          <a href="https://pubs.acs.org/doi/10.1021/jacs.5c12445" target="_blank" class="tlink tlink-orange">Read in JACS <span class="arr">↗</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-block reveal">
+      <div>
+        <p class="pub-eyebrow">📄 Peer-Reviewed · Journal of the American Chemical Society</p>
+        <h3 class="pub-title-big">Controlling Selectivity in Electrochemical Conversion of Organic Mixtures through Dynamic Control of Electrode Microenvironments</h3>
+        <p class="pub-authors">Mathison, R., Rani, E., <strong>Rose, A. M.</strong>, Prendi, F., Bloomquist, C. K., & Modestino, M. A.</p>
+        <p class="pub-journal">J. Am. Chem. Soc. · 2025</p>
+        <a href="https://pubs.acs.org/doi/10.1021/jacs.5c12445" target="_blank" class="tlink tlink-white" style="font-size:0.8rem;">Read the full paper <span class="arr">↗</span></a>
+      </div>
+      <div>
+        <p class="pub-right-label">Conference Presentations</p>
+        <div class="conf-item"><span class="conf-year">2023</span><div><p class="conf-title">Food Waste Biological Conversion into Bioenergy and Bioplastics</p><p class="conf-venue">American Ecological Engineering Society · Tampa, FL</p></div></div>
+        <div class="conf-item"><span class="conf-year">2023</span><div><p class="conf-title">Bioprocessing of Waste for Bioenergy and Biomaterials for Sustainable Bio-Economy</p><p class="conf-venue">Symposium on Biomaterials, Fuels & Chemicals · Portland, OR</p></div></div>
+      </div>
+    </div>
+
+    <p class="roles-header reveal">Research Roles</p>
+    <div>
+      <div class="role-row reveal">
+        <p class="role-date">Feb 2026 – Present</p>
+        <div><h4 class="role-title">Electrochemistry Intern</h4><p class="role-org">Turnover Labs</p><p class="role-desc">Collect and analyze experimental data to support process improvements and report findings to the team. Test and troubleshoot electrolysis system performance to identify areas for optimization.</p></div>
+        <span class="role-num">01</span>
+      </div>
+      <div class="role-row reveal">
+        <p class="role-date">Jun – Aug 2025</p>
+        <div><h4 class="role-title">Undergraduate Researcher</h4><p class="role-org">NYU Tandon Summer Research · Dr. Modestino's Lab</p><p class="role-desc">Led the REnewEthanol project — optimizing pulsed electrolysis using a copper-based membrane electrode assembly. Developed reaction control strategies enabling large-scale chemical processes to utilize renewable energy. Planning future work converting CO₂ into ethanol.</p></div>
+        <span class="role-num">02</span>
+      </div>
+      <div class="role-row reveal">
+        <p class="role-date">Feb – Jun 2025</p>
+        <div><h4 class="role-title">Research Assistant</h4><p class="role-org">Denmark Technical University — DTU Energy Dept.</p><p class="role-desc">Conducted electrochemical experiments under Post-Doc David Tran's guidance. Studied pathways utilizing xylitol, sorbitol, and glycerol. Used Python to plot and analyze cyclic voltammetry data for reaction mechanism studies.</p></div>
+        <span class="role-num">03</span>
+      </div>
+      <div class="role-row reveal">
+        <p class="role-date">Jan – Dec 2024</p>
+        <div><h4 class="role-title">Research Assistant</h4><p class="role-org">NYU Electrochemistry Lab — Dr. Miguel Modestino</p><p class="role-desc">Worked directly under PhD student Ricardo Mathison. Programmed and operated Opentron's pipetting robot. Ran electrochemical experiments with Acrylonitrile and Crotononitrile in the Paradox reactor. Contributed to JACS 2025 publication.</p></div>
+        <span class="role-num">04</span>
+      </div>
+      <div class="role-row reveal">
+        <p class="role-date">Jun 2022 – Aug 2023</p>
+        <div><h4 class="role-title">Lab Assistant</h4><p class="role-org">University of Maryland — Dr. Stephanie Lansing's Environmental Science Lab</p><p class="role-desc">Researched conversion of food waste into biofuels and bioplastics. Collected and analyzed samples using filtering, acidification, COD testing, and solids testing. Co-authored two conference presentations at national symposia.</p></div>
+        <span class="role-num">05</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="edu-layout">
+      <div class="reveal-left">
+        <p class="section-tag blue" style="color:rgba(126,179,255,0.9);">Education</p>
+        <h2 class="edu-school-name">New York<br>University</h2>
+        <p class="edu-school-sub">Tandon School of Engineering<br>Brooklyn, New York<br>B.S. Chemical & Biomolecular Engineering<br>Expected Graduation: May 2027</p>
+        <p class="edu-gpa-big">3.7</p>
+        <p class="edu-gpa-label">GPA / 4.0</p>
+        <div style="margin-top:2rem;"><a href="AmeliaRose_Resume.pdf" download class="tlink tlink-white" style="font-size:0.8rem;">Download full resume <span class="arr">↓</span></a></div>
+      </div>
+      <div class="edu-cards reveal">
+        <div class="edu-card"><p class="edu-card-title">Chemical & Biomolecular Engineering Core</p><p class="edu-card-desc">Core curriculum covering reaction engineering, transport phenomena, thermodynamics, and materials science with a focus on electrochemistry and sustainable processes.</p></div>
+        <div class="edu-card green-a"><p class="edu-card-title">Strategic Analysis & Economics for Engineers</p><p class="edu-card-desc">Coursework in Strategy Development and Economics — building the business and systems thinking perspective needed to translate research into real-world impact.</p></div>
+        <div class="edu-card blue-a"><p class="edu-card-title">Python & Data Analysis</p><p class="edu-card-desc">Applied Python for data visualization and analysis — used in cyclic voltammetry studies at DTU and electrochemical experiments at NYU Modestino Lab.</p></div>
+        <div class="edu-card nyu-a"><p class="edu-card-title">GLASS Honors Program</p><p class="edu-card-desc">Three-year leadership development program with international study (Denmark, Vietnam) and professional development through the five GLASS Windows framework.</p></div>
+        <div class="edu-card"><p class="edu-card-title">NYU WoMentorship Program</p><p class="edu-card-desc">Active mentor since September 2025, supporting underclassmen navigating the challenges of being a woman in STEM.</p></div>
+        <div class="edu-card green-a"><p class="edu-card-title">Society of Women Engineers — SWE Conference 2024</p><p class="edu-card-desc">Attended the annual SWE conference in Chicago — met company representatives, attended professional panels, and built a lasting network.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLASS -->
+  <section id="glass">
+    <p class="section-tag nyu reveal">Global Leaders & Scholars in STEM</p>
+    <h2 class="section-heading reveal"><span class="nyu-text">GLASS</span> Program</h2>
+
+    <div class="glass-layout">
+      <div class="glass-intro-text reveal">
+        <p><strong>Global Leaders and Scholars in STEM (GLASS)</strong> is a rigorous three-year honors program at NYU Tandon that brings together high-achieving undergraduates with the potential to become global leaders in innovation, technology, research, and entrepreneurship.</p>
+        <p>As a GLASS Scholar, I've pursued experiences across all five program "windows" — building global competency through international study in <strong>Denmark and Vietnam</strong>, deepening academic excellence through published research, and giving back through service and mentorship.</p>
+        <p>GLASS scholars focus on the Tandon Impact Areas and the lens of the <strong>UN Sustainable Development Goals</strong> — a framework that resonates deeply with my work in renewable energy. This website serves as my official GLASS professional portfolio, completed in Year Three of the program.</p>
+        <p>The program provided annual funding for research, academics, and professional development — enabling me to attend SWE, conduct summer research, and grow as both a scientist and a leader.</p>
+        <div class="glass-intro-links">
+          <a href="https://engineering.nyu.edu/academics/undergraduate/glass" target="_blank" class="tlink tlink-nyu">About the GLASS program at NYU Tandon <span class="arr">↗</span></a>
+        </div>
+      </div>
+      <div class="reveal">
+        <p style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(87,6,140,0.45);margin-bottom:1rem;">The 5 GLASS Windows</p>
+        <div class="glass-windows-grid">
+          <div class="gwindow"><div class="gwindow-icon">🌍</div><p class="gwindow-title">Global Competency</p><p class="gwindow-desc">Semester abroad, international internships, short-term global experiences</p></div>
+          <div class="gwindow"><div class="gwindow-icon">🤝</div><p class="gwindow-title">Commitment to Service</p><p class="gwindow-desc">Service learning, community engagement, alternative break trips</p></div>
+          <div class="gwindow"><div class="gwindow-icon">🏆</div><p class="gwindow-title">Leadership Development</p><p class="gwindow-desc">Team projects, mentoring, student club leadership positions</p></div>
+          <div class="gwindow"><div class="gwindow-icon">📚</div><p class="gwindow-title">Academic Excellence</p><p class="gwindow-desc">Thesis, senior design, VIP projects, published research</p></div>
+          <div class="gwindow span2"><div class="gwindow-icon">💼</div><p class="gwindow-title">Professional Development</p><p class="gwindow-desc">Internships, research roles, conference attendance</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-divider"></div>
+    <h3 class="glass-exp-heading reveal">My GLASS Experiences</h3>
+    <div class="glass-exp-grid">
+      <div class="gcard reveal" style="grid-column: span 2;">
+        <div class="gcard-icon">🇩🇰</div>
+        <p class="gcard-window">Global Competency</p>
+        <h4 class="gcard-title">Semester Abroad — Denmark & Europe</h4>
+        <p class="gcard-loc">Denmark Technical University · Spring 2025 · 13+ Countries</p>
+        <p class="gcard-desc">During the spring semester of my sophomore year, I studied abroad at DTU, meeting people from many countries and conducting research in DTU's Energy Department under Post-Doc <strong>David Tran</strong>. Using Copenhagen as a base, GLASS helped me travel to <strong>13+ countries</strong> across Europe — from Lisbon to Tallinn, Mont Blanc to Dublin. See the map and photos below.</p>
+        <div style="margin-top:1rem;">
+          <a href="#europe-travels" class="tlink tlink-nyu" style="font-size:0.75rem;">See all 15 cities on the map <span class="arr">↓</span></a>
+        </div>
+      </div>
+      <div class="gcard reveal" style="grid-column: span 2;">
+        <div class="gcard-icon">🇻🇳</div>
+        <p class="gcard-window">Global Competency</p>
+        <h4 class="gcard-title">January Term — Vietnam</h4>
+        <p class="gcard-loc">VinUniversity, Hanoi + Ha Long Bay · January 2026</p>
+        <p class="gcard-desc">During January term in my junior year, I studied abroad in Vietnam at VinUniversity in Hanoi for two weeks. I immersed in Vietnamese culture — learning traditional crafts, exploring Ha Long Bay, and gaining a new technical skill in <strong>digital twin models for the city of Hanoi</strong>, expanding my toolkit into urban systems and smart city modeling.</p>
+        <div class="gcard-gallery">
+          <img src="vietnam_craft.jpg" alt="Learning traditional crafts in Vietnam" class="span2"/>
+          <img src="vietnam_fish.jpg" alt="Vietnam cultural experience"/>
+          <img src="vietnam_outdoors.jpg" alt="Vietnam outdoor activities"/>
+        </div>
+      </div>
+      <div class="gcard reveal">
+        <div class="gcard-icon">🔬</div>
+        <p class="gcard-window">Academic Excellence</p>
+        <h4 class="gcard-title">NYU Electrochemistry Lab</h4>
+        <p class="gcard-loc">Dr. Modestino's Group · Jan 2024 – Present</p>
+        <p class="gcard-desc">Beginning in the spring of my freshman year, I've worked in Dr. Modestino's group under PhD student Ricardo Mathison. I programmed Opentron's pipetting robot, ran experiments with Acrylonitrile and Crotononitrile, and contributed to a <strong>JACS 2025 publication</strong>.</p>
+      </div>
+      <div class="gcard reveal">
+        <div class="gcard-icon">👩‍💼</div>
+        <p class="gcard-window">Professional Development</p>
+        <h4 class="gcard-title">SWE Annual Conference</h4>
+        <p class="gcard-loc">Society of Women Engineers · Chicago, IL · 2024</p>
+        <p class="gcard-desc">My first professional conference. I met company representatives from across the US, made friends with fellow attendees, and attended panels on succeeding in engineering. I came home with tools to build my professional skills and a lasting sense of community.</p>
+      </div>
+      <div class="gcard reveal">
+        <div class="gcard-icon">🌱</div>
+        <p class="gcard-window">Leadership Development</p>
+        <h4 class="gcard-title">NYU WoMentorship Program</h4>
+        <p class="gcard-loc">NYU Tandon · September 2025 – Present</p>
+        <p class="gcard-desc">As a mentor in the WoMentorship Program, I provide strategies to underclassmen navigating challenges unique to <strong>women in STEM</strong>. Drawing on my own journey through research, study abroad, and professional development, I help the next generation find their footing.</p>
+      </div>
+      <div class="gcard reveal">
+        <div class="gcard-icon">☀️</div>
+        <p class="gcard-window">Academic Excellence</p>
+        <h4 class="gcard-title">Summer Research — REnewEthanol</h4>
+        <p class="gcard-loc">NYU Tandon · June – August 2025</p>
+        <p class="gcard-desc">Led the REnewEthanol project using pulsed electrolysis and a copper MEA to develop reaction control strategies for renewable-powered chemical manufacturing — directly aligned with UN SDGs on <strong>clean energy and sustainable industry</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EUROPE TRAVELS -->
+  <div class="map-section" id="europe-travels">
+    <div class="map-header">
+      <div>
+        <h3 class="map-title">Europe — Semester Abroad</h3>
+        <p class="map-subtitle">Denmark Technical University · Spring 2025 · Copenhagen as home base</p>
+      </div>
+      <div style="text-align:right;">
+        <p class="map-count">15</p>
+        <p class="map-count-label">Cities visited</p>
+      </div>
+    </div>
+
+    <!-- COUNTRY TAGS -->
+    <div class="city-pins-legend">
+      <span class="city-pin-tag">🇩🇰 Copenhagen</span>
+      <span class="city-pin-tag">🇸🇪 Malmö</span>
+      <span class="city-pin-tag">🇸🇪 Stockholm</span>
+      <span class="city-pin-tag">🇫🇮 Helsinki</span>
+      <span class="city-pin-tag">🇪🇪 Tallinn</span>
+      <span class="city-pin-tag">🇩🇪 Berlin</span>
+      <span class="city-pin-tag">🇩🇪 Hamburg</span>
+      <span class="city-pin-tag">🇳🇱 Amsterdam</span>
+      <span class="city-pin-tag">🇬🇧 London</span>
+      <span class="city-pin-tag">🇮🇪 Dublin</span>
+      <span class="city-pin-tag">🇮🇹 Milan</span>
+      <span class="city-pin-tag">🇨🇭 Geneva</span>
+      <span class="city-pin-tag">🇫🇷 Mont Blanc</span>
+      <span class="city-pin-tag">🇪🇸 Barcelona</span>
+      <span class="city-pin-tag">🇵🇹 Lisbon</span>
+    </div>
+
+    <!-- ROTATING PHOTO SLIDESHOW -->
+    <div class="euro-slideshow">
+      <div class="euro-slides" id="euroSlides">
+        <div class="euro-slide active"><img src="lisbon.jpg" alt="Lisbon"/><div class="euro-slide-label">Lisbon, Portugal 🇵🇹</div></div>
+        <div class="euro-slide"><img src="london.jpg" alt="London"/><div class="euro-slide-label">London, UK 🇬🇧</div></div>
+        <div class="euro-slide"><img src="amsterdam.jpg" alt="Amsterdam"/><div class="euro-slide-label">Amsterdam, Netherlands 🇳🇱</div></div>
+        <div class="euro-slide"><img src="montblanc.jpg" alt="Mont Blanc"/><div class="euro-slide-label">Mont Blanc, France 🇫🇷</div></div>
+        <div class="euro-slide"><img src="tallinn.jpg" alt="Tallinn"/><div class="euro-slide-label">Tallinn, Estonia 🇪🇪</div></div>
+        <div class="euro-slide"><img src="lisbon_cafe.jpg" alt="Lisbon café"/><div class="euro-slide-label">Lisbon café life 🇵🇹</div></div>
+        <div class="euro-slide"><img src="berlin.jpg" alt="Berlin"/><div class="euro-slide-label">Berlin, Germany 🇩🇪</div></div>
+        <div class="euro-slide"><img src="copenhagen.jpg" alt="Copenhagen"/><div class="euro-slide-label">Copenhagen, Denmark 🇩🇰</div></div>
+      </div>
+      <button class="euro-btn euro-prev" onclick="moveSlide(-1)">‹</button>
+      <button class="euro-btn euro-next" onclick="moveSlide(1)">›</button>
+      <div class="euro-dots" id="euroDots"></div>
+    </div>
+  </div>
+
+  <!-- MARQUEE 3 -->
+  <div class="marquee-wrap" style="background:var(--nyu);">
+    <div class="marquee-track" style="animation-duration:32s;">
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>GLASS Scholar</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>Global Competency</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>Academic Excellence</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>Leadership Development</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>Professional Development</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>Commitment to Service</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>NYU Tandon</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>UN SDGs</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>GLASS Scholar</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>Global Competency</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>Academic Excellence</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>Leadership Development</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>Professional Development</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>Commitment to Service</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>NYU Tandon</span>
+      <span class="marquee-item"><span class="marquee-dot" style="background:#c084fc"></span>UN SDGs</span>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="reveal-left">
+      <p class="section-tag orange">Contact</p>
+      <h2 class="contact-big">Let's<br><em>connect.</em></h2>
+      <p class="contact-tagline">Open to research collaborations, internships, and conversations about electrochemistry, renewable energy, or sustainable engineering. Always happy to hear from fellow scientists and curious minds.</p>
+      <div class="contact-links-list">
+        <a href="https://www.linkedin.com/in/amelia-rose-2b8214294" target="_blank" class="tlink tlink-orange" style="font-size:0.8rem;">Visit my LinkedIn profile <span class="arr">↗</span></a>
+        <a href="AmeliaRose_Resume.pdf" download class="tlink tlink-green" style="font-size:0.8rem;">Download my resume <span class="arr">↓</span></a>
+      </div>
+    </div>
+    <div class="contact-right reveal">
+      <a href="mailto:amr10277@nyu.edu" class="contact-item">
+        <span class="contact-item-label">Email</span>
+        <span class="contact-item-val">amr10277@nyu.edu</span>
+      </a>
+      <a href="tel:4434304691" class="contact-item">
+        <span class="contact-item-label">Phone</span>
+        <span class="contact-item-val">(443) 430-4691</span>
+      </a>
+      <a href="https://www.linkedin.com/in/amelia-rose-2b8214294" target="_blank" class="contact-item">
+        <span class="contact-item-label">LinkedIn</span>
+        <span class="contact-item-val">linkedin.com/in/amelia-rose-2b8214294</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Amelia Rose</p>
+    <p>Chemical & Biomolecular Engineering · NYU Tandon · Class of 2027</p>
+    <p>Made with 💜 for GLASS</p>
+  </footer>
+
+  <script>
+  try {
+    // Mark JS as loaded so reveal animations activate
+    document.body.classList.add('js-loaded');
+
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function animCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animCursor);
+    })();
+
+    // Cursor color per section
+    const colorMap = { home:'#e85d04', about:'#1a7a4a', research:'#e85d04', education:'#1455c8', glass:'#57068c', contact:'#e85d04' };
+    const sectionObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const c = colorMap[e.target.id] || '#e85d04';
+          cursor.style.background = c;
+          ring.style.borderColor = c;
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('section').forEach(s => sectionObs.observe(s));
+
+    // Cursor grow on interactive elements
+    document.querySelectorAll('a, .gcard, .role-row, .contact-item, .fact-pill, .rtag').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2.5)'; cursor.style.opacity = '0.5'; });
+      el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; cursor.style.opacity = '1'; });
+    });
+
+    // Scroll reveal — simple and reliable
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('up');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal, .reveal-left').forEach(el => revealObs.observe(el));
+    // Europe photo slideshow
+    let slideIdx = 0;
+    const slides = document.querySelectorAll('.euro-slide');
+    const dotsContainer = document.getElementById('euroDots');
+
+    if (slides.length && dotsContainer) {
+      // Build dots
+      slides.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'euro-dot' + (i === 0 ? ' active' : '');
+        d.onclick = () => goSlide(i);
+        dotsContainer.appendChild(d);
+      });
+
+      function goSlide(n) {
+        slides[slideIdx].classList.remove('active');
+        dotsContainer.children[slideIdx].classList.remove('active');
+        slideIdx = (n + slides.length) % slides.length;
+        slides[slideIdx].classList.add('active');
+        dotsContainer.children[slideIdx].classList.add('active');
+      }
+
+      window.moveSlide = (dir) => goSlide(slideIdx + dir);
+
+      // Auto-advance every 4 seconds
+      setInterval(() => goSlide(slideIdx + 1), 4000);
+    }
+
+  } catch(err) { console.warn('Site script error:', err); }
+  </script>
+</body>
+</html>
